@@ -1,72 +1,48 @@
 def calculate_price_with_tax():
-    """
-    برنامج Python لحساب سعر المنتج شامل ضريبة القيمة المضافة (15%) عبر Terminal.
-    """
-    # 1. قائمة المنتجات (List of Lists/Tuples)
-    # الهيكل: [اسم المنتج, سعر المنتج الأصلي]
+    # Product List: [Name, Price]
     products = [
-        ["منتج 1", 10],   # السعر 10 ريال
-        ["منتج 2", 20],   # السعر 20 ريال
-        ["منتج 3", 30],   # السعر 30 ريال
-        ["منتج 4", 40],   # السعر 40 ريال
-        ["منتج 5", 50]    # السعر 50 ريال
+        ["Product 1", 10],
+        ["Product 2", 20],
+        ["Product 3", 30],
+        ["Product 4", 40],
+        ["Product 5", 50]
     ]
 
-    TAX_RATE = 0.15  # نسبة الضريبة 15% [cite: 23]
+    tax_rate = 0.15 
 
-    print("====================================")
-    print("🛒 تطبيق حاسبة أسعار المنتجات (15% ضريبة)")
-    print("====================================")
+    print("--- Price Calculator with Tax ---")
 
-    # 2. عرض قائمة المنتجات للمستخدم
-    print("\nقائمة المنتجات المتوفرة:")
-    for index, product in enumerate(products):
-        # الرقم يبدأ من 1 (index + 1)
-        product_number = index + 1
-        product_name = product[0]
-        product_price = product[1]
-        print(f"  {product_number}. {product_name} - السعر الأصلي: {product_price} ريال")
+    # Display products
+    print("\nAvailable Products:")
+    for i, item in enumerate(products):
+        print(f" {i + 1}. {item[0]} - Price: {item[1]} SAR")
 
     while True:
         try:
-            # 3. طلب إدخال رقم المنتج
-            # استخدمنا 'end=""' لتخفيف مشكلة انعكاس الحروف في Terminal
-            print("\nاكتب رقم المنتج الذي تريد حسابه: ", end="")
-            user_input = input()
+            user_input = input("\nEnter product number: ")
             
-            # التحقق من أن المدخل رقمي
             if not user_input.isdigit():
-                raise ValueError
+                print("Please enter numbers only.")
+                continue
             
-            product_index = int(user_input) - 1 # تحويل الرقم المدخل إلى فهرس (index)
+            index = int(user_input) - 1
             
-            # 5. التحقق من أن الرقم ضمن النطاق الصحيح
-            if 0 <= product_index < len(products):
+            if 0 <= index < len(products):
+                selected = products[index]
+                price = selected[1]
                 
-                selected_product = products[product_index]
-                original_price = selected_product[1]
+                final_price = price + (price * tax_rate)
                 
-                # 4. حساب السعر شامل الضريبة [cite: 24]
-                # السعر + (السعر * نسبة الضريبة)
-                price_with_tax = original_price + (original_price * TAX_RATE)
-                
-                # عرض الناتج (مقرباً لمنزلتين عشريتين)
                 print("------------------------------------")
-                # مثال في التيرمنال: سعر المنتج شامل الضريبة : 34.5 ريال [cite: 38]
-                print(f"✅ سعر {selected_product[0]} شامل الضريبة: {price_with_tax:.2f} ريال")
+                print(f"OK Item: {selected[0]}")
+                print(f"Total Price (with Tax): {final_price:.2f} SAR")
                 print("------------------------------------")
-                
-                # بعد عرض النتيجة، نكسر حلقة التكرار
                 break
             else:
-                # رسالة مناسبة لرقم منتج غير موجود 
-                print("❌ رقم المنتج غير صحيح. الرجاء إدخال رقم من 1 إلى 5 فقط.")
+                print("Invalid number. Choose from 1 to 5.")
 
-        except ValueError:
-            print("🚫 إدخال غير صالح. الرجاء إدخال رقم المنتج كرقم صحيح.")
-        except Exception as e:
-            print(f"حدث خطأ غير متوقع: {e}")
+        except Exception:
+            print("Error occurred.")
 
-# تشغيل البرنامج
 if __name__ == "__main__":
     calculate_price_with_tax()
